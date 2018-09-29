@@ -1,15 +1,15 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "can_msgs/Frame.h"
-#include "radar_config.h"
+#include "hmi_bridge.h"
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "radar_config_node");
+  ros::init(argc, argv, "hmi_bridge_node");
   ros::NodeHandle nh;
   ros::NodeHandle private_nh("~");
-  radar_config::parse_frames parse(nh, private_nh);
-  ROS_INFO("radar_config_node......");
+  hmi_bridge::parse_frames parse(nh, private_nh);
+  ROS_INFO("hmi_bridge_node......");
   ros::spin();
   return 0;
 }

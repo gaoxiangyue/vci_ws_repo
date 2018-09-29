@@ -12,6 +12,8 @@
 #include <momenta_msgs/ObjectArray.h>
 #include <momenta_msgs/ArsObject.h>
 #include <momenta_msgs/ArsObjectArray.h>
+#include <vci_msgs/RadarObject.h>
+#include <vci_msgs/RadarObjectArray.h>
 #include <sensor_msgs/PointCloud.h>
 #include <geometry_msgs/Point32.h>
 
@@ -26,7 +28,7 @@
 #include <dbw_mkz_msgs/ThrottleInfoReport.h>
 #include <dynamic_reconfigure/server.h>
 
-namespace radar_config {
+namespace hmi_bridge {
 //using namespace timesync;
 using namespace std;
 
@@ -62,8 +64,11 @@ private:
          /* timers */
          ros::WallTimer timer_pub_can_;
 
+         /* test */
+         vci_msgs::RadarObjectArray radar_objects;
+
 };
 
-}//namespace radar_config
+}//namespace hmi_bridge
 
-#endif // radar_config
+#endif // hmi_bridge

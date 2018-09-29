@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   momenta_msgs
   dbw_mkz_msgs
+  vci_msgs
 )
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -138,14 +139,14 @@ ${catkin_INCLUDE_DIRS}
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/hmi_bridge_node.cpp)
 ## Declare a C++ executable
-add_executable(radar_config_node
-  src/radar_config_node.cpp
-  src/radar_config.cpp
+add_executable(hmi_bridge_node
+  src/hmi_bridge_node.cpp
+  src/hmi_bridge.cpp
 )
 
-target_link_libraries(radar_config_node ${catkin_LIBRARIES})
+target_link_libraries(hmi_bridge_node ${catkin_LIBRARIES})
 
-add_dependencies(radar_config_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(hmi_bridge_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

@@ -3,7 +3,7 @@
   <arg name="start_can" default="false"/>
   <!-- <group ns="sensor/radar">
 
-    <node pkg="continental_driver" type="radar_config_node" name="radar_config_node" output="screen">
+    <node pkg="continental_driver" type="hmi_bridge_node" name="hmi_bridge_node" output="screen">
       <param name="can_radar_rx" value="/can0_rx"/>
       <param name="can_radar_tx" value="/can0_tx"/>
       <param name="fps_radar_tx" value="10"/>

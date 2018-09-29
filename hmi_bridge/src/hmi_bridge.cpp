@@ -1,11 +1,11 @@
 #include "ros/ros.h"
-#include "radar_config.h"
+#include "hmi_bridge.h"
 #include "CanUtils.hpp"
 #include "Common.hpp"
 #include <memory>
 #include <cmath>
 
-namespace radar_config
+namespace hmi_bridge
 {
 using namespace bosch_mrr;
 parse_frames::parse_frames(ros::NodeHandle &nh, ros::NodeHandle &nh_private)
@@ -17,7 +17,7 @@ parse_frames::parse_frames(ros::NodeHandle &nh, ros::NodeHandle &nh_private)
   READ_PRIVATE_PARAM_WITH_DEFAULT(std::string, can_radar_rx_, "/can_rx");
   READ_PRIVATE_PARAM_WITH_DEFAULT(std::string, can_radar_tx_, "/can_tx");
   READ_PRIVATE_PARAM_WITH_DEFAULT(int, config_times_, 1);
-  READ_PRIVATE_PARAM_WITH_DEFAULT(std::string, can_frame_id_, "radar_config");
+  READ_PRIVATE_PARAM_WITH_DEFAULT(std::string, can_frame_id_, "hmi_bridge");
 
   /* radar config param*/
   READ_PRIVATE_PARAM_WITH_DEFAULT(int, radar_type_, 1);
@@ -241,4 +241,4 @@ void parse_frames::configArsRadar(uint32_t old_id,uint32_t new_id, uint8_t outpu
     ROS_INFO("configsArsRadar publish...%d-->id:%d|type %d",old_id,new_id,output_type);
 }
 
-}//namespace radar_config
+}//namespace hmi_bridge
