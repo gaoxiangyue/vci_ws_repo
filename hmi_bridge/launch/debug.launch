@@ -1,20 +1,14 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="start_can" default="false"/>
-  <!-- <group ns="sensor/radar">
+  <arg name="start_udp" default="true"/>
+  <group ns="hmi/hmi_bridge">
 
-    <node pkg="continental_driver" type="hmi_bridge_node" name="hmi_bridge_node" output="screen">
-      <param name="can_radar_rx" value="/can0_rx"/>
-      <param name="can_radar_tx" value="/can0_tx"/>
-      <param name="fps_radar_tx" value="10"/>
-      <param name="config_times" value="0"/>
-      <param name="can_frame_id" value=""/>
-      <param name="radar_type" value="1"/>
-      <param name="radar_id_old" value="0"/>
-      <param name="radar_id_new" value="0"/>
-      <param name="output_type" value="1"/> 
+    <node pkg="hmi_bridge" type="hmi_bridge_node" name="hmi_bridge_node" output="screen">
+      <param name="fps_pub_" value="10"/>
+      <param name="topic_name_rx" value="/hmi_display"/>
+      <param name="topic_name_tx" value="/hmi_config"/>
     </node>
-  </group> -->
+  </group>
 
    <!-- <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="can0_node" output="screen">
     <param name="can_device" value="can0"/>
