@@ -142,6 +142,8 @@ ${catkin_INCLUDE_DIRS}
 add_executable(hmi_bridge_node
   src/hmi_bridge_node.cpp
   src/hmi_bridge.cpp
+  src/protocol_parse.cpp
+  src/udp.cpp
 )
 
 target_link_libraries(hmi_bridge_node ${catkin_LIBRARIES})

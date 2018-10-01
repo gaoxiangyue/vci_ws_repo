@@ -7,6 +7,7 @@
 #include <ros/ros.h>
 #include <ros/timer.h>
 #include <map>
+
 #include <can_msgs/Frame.h>
 #include <momenta_msgs/Object.h>
 #include <momenta_msgs/ObjectArray.h>
@@ -28,16 +29,19 @@
 #include <dbw_mkz_msgs/ThrottleInfoReport.h>
 #include <dynamic_reconfigure/server.h>
 
+#include "udp.hpp"
+#include "protocol_parse.hpp"
+
 namespace hmi_bridge {
 //using namespace timesync;
 using namespace std;
 
-class parse_frames
+class udp_bridge
 {
 public:
-  parse_frames(ros::NodeHandle &nh, ros::NodeHandle &nh_private);
-  ~parse_frames();
-  void publishCanFrame(const ros::WallTimerEvent& event);
+  udp_bridge(ros::NodeHandle &nh, ros::NodeHandle &nh_private);
+  ~udp_bridge();
+  void publishTopics(const ros::WallTimerEvent& event);
 
 private:
   void processRadarMsg(const can_msgs::Frame::ConstPtr& can_msg);
@@ -51,7 +55,7 @@ private:
      ros::Publisher pub_can_radar_;
 
      /* ROS parameters */
-         int fps_radar_tx_;         // fps publishing car info to radar
+         int fps_pub_;              // fps publishing topics
          int config_times_;
          std::string can_frame_id_;
          std::string can_radar_rx_; // radar -> driver ("can_rx")
@@ -62,7 +66,7 @@ private:
          int output_type_;
 
          /* timers */
-         ros::WallTimer timer_pub_can_;
+         ros::WallTimer timer_pub_;
 
          /* test */
          vci_msgs::RadarObjectArray radar_objects;

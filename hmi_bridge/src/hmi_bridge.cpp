@@ -8,12 +8,12 @@
 namespace hmi_bridge
 {
 using namespace bosch_mrr;
-parse_frames::parse_frames(ros::NodeHandle &nh, ros::NodeHandle &nh_private)
+udp_bridge::udp_bridge(ros::NodeHandle &nh, ros::NodeHandle &nh_private)
   //,timesync_(nh,nh_private)
 {
   READ_PARAM_BEGIN;
   /* node parameter*/
-  READ_PRIVATE_PARAM_WITH_DEFAULT(int, fps_radar_tx_, 50);
+  READ_PRIVATE_PARAM_WITH_DEFAULT(int, fps_pub_, 50);
   READ_PRIVATE_PARAM_WITH_DEFAULT(std::string, can_radar_rx_, "/can_rx");
   READ_PRIVATE_PARAM_WITH_DEFAULT(std::string, can_radar_tx_, "/can_tx");
   READ_PRIVATE_PARAM_WITH_DEFAULT(int, config_times_, 1);
@@ -29,20 +29,20 @@ parse_frames::parse_frames(ros::NodeHandle &nh, ros::NodeHandle &nh_private)
   pub_can_radar_ = nh.advertise<can_msgs::Frame>(can_radar_tx_, 1);
 
   /* subscribers */
-  sub_can_radar_ = nh.subscribe(can_radar_rx_, 100, &parse_frames::processRadarMsg,this);
+  sub_can_radar_ = nh.subscribe(can_radar_rx_, 100, &udp_bridge::processRadarMsg,this);
 
   /* scheduling publishers*/
-  timer_pub_can_ = nh.createWallTimer(ros::WallDuration(1./fps_radar_tx_), &parse_frames::publishCanFrame, this);
+  timer_pub_ = nh.createWallTimer(ros::WallDuration(1./fps_pub_), &udp_bridge::publishTopics, this);
 
   //last_timestamp_=ros::Time::now();
 }
 
-parse_frames::~parse_frames()
+udp_bridge::~udp_bridge()
 {
 
 }
 
-void parse_frames::processRadarMsg(const can_msgs::Frame::ConstPtr &can_msg)
+void udp_bridge::processRadarMsg(const can_msgs::Frame::ConstPtr &can_msg)
 {
   //DEBUG_PRINT_VAR(can_msg->id);
   if(radar_type_==1)//for ars408-21
@@ -60,7 +60,7 @@ void parse_frames::processRadarMsg(const can_msgs::Frame::ConstPtr &can_msg)
   ;
 }
 
-bool parse_frames::parseArsStatus(uint32_t radar_id, const can_msgs::Frame::ConstPtr& msg)
+bool udp_bridge::parseArsStatus(uint32_t radar_id, const can_msgs::Frame::ConstPtr& msg)
 {
   //for Continental ARS 408-21
   //message ID=message ID0+sensor ID*0x10
@@ -110,7 +110,7 @@ bool parse_frames::parseArsStatus(uint32_t radar_id, const can_msgs::Frame::Cons
      return false;
 }
 
-bool parse_frames::parseSrrStatus(uint32_t radar_id, const can_msgs::Frame::ConstPtr& msg)
+bool udp_bridge::parseSrrStatus(uint32_t radar_id, const can_msgs::Frame::ConstPtr& msg)
 {
     //for Continental SRR 208-21
     //message ID=message ID0+sensor ID*0x10
@@ -149,7 +149,7 @@ bool parse_frames::parseSrrStatus(uint32_t radar_id, const can_msgs::Frame::Cons
         return false;
 }
 
-void parse_frames::publishCanFrame(const ros::WallTimerEvent& event)
+void udp_bridge::publishTopics(const ros::WallTimerEvent& event)
 {
   if(config_times_>0)
     config_times_--;
@@ -167,7 +167,7 @@ void parse_frames::publishCanFrame(const ros::WallTimerEvent& event)
       ROS_INFO("not support radar_type_:%d",radar_type_);
 }
 
-void parse_frames::configSrrRadar(uint32_t old_id,uint32_t new_id, uint8_t output_type)
+void udp_bridge::configSrrRadar(uint32_t old_id,uint32_t new_id, uint8_t output_type)
 {
     //for srr20821
     can_msgs::Frame config_frame;
@@ -188,7 +188,7 @@ void parse_frames::configSrrRadar(uint32_t old_id,uint32_t new_id, uint8_t outpu
     ROS_INFO("configsSrrRadar publish...id:%d-->%d|type %d",old_id,new_id,output_type);
 }
 
-void parse_frames::configArsRadar(uint32_t old_id,uint32_t new_id, uint8_t output_type)
+void udp_bridge::configArsRadar(uint32_t old_id,uint32_t new_id, uint8_t output_type)
 {
     //for srr20821
     can_msgs::Frame config_frame;
