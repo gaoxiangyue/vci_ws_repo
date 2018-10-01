@@ -8,14 +8,14 @@
 #include <map>
 
 #include <can_msgs/Frame.h>
-#include <vci_msgs/RadarObject.h>
-#include <vci_msgs/RadarObjectArray.h>
 #include <sensor_msgs/PointCloud.h>
 #include <geometry_msgs/Point32.h>
-
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/Imu.h>
 #include <dynamic_reconfigure/server.h>
+#include <vci_msgs/RadarObject.h>
+#include <vci_msgs/RadarObjectArray.h>
+#include <vci_msgs/HmiConfig.h>
 
 #include "udp.hpp"
 #include "protocol_parse.hpp"
@@ -31,8 +31,9 @@ public:
   ~udp_bridge();
   
 private:
-  void processTopic(const can_msgs::Frame::ConstPtr& can_msg);
+  void processTopic(const vci_msgs::HmiConfig::ConstPtr& msg);
   void publishTopic(const ros::WallTimerEvent& event);
+  void listenUdp(const ros::WallTimerEvent& event);
 
   /* Subscribers & publishers */
      ros::Subscriber sub_topic_;
@@ -43,7 +44,9 @@ private:
      std::string topic_name_tx_; // driver -> radar
   /* timers */
      ros::WallTimer timer_pub_;
+     ros::WallTimer timer_udp_;
   /* UDP parameters */
+     int fps_udp_;                // fps lishening udp msgs 
 
 };
 
