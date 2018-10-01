@@ -52,6 +52,70 @@ void udp_bridge::publishTopic(const ros::WallTimerEvent& event)
 void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
 {
   //ROS_INFO("..");
+  // std::string recv_str;
+  // protocol_parse::HMI_CONFIG_ my_config;
+  // protocol_parse::HMI_DISP_ my_disp;
+  // protocol_parse::hmi_protocol my_proto;
+  // udp_space::udp myudp;
+
+  // /* Test field which can be removed when using*/
+  // // the ivHMI should be made minor adjustments
+  // {
+  // // char recv_data[]="<1,2,3,4,5,6,7,8,9,10.1234567/>";
+  // // recv_str=std::string(recv_data);
+  // // my_proto.unpack(recv_str,my_config);
+  // // std::cout<<"pack(my_disp):"<<my_proto.pack(my_disp)<<std::endl;
+  // // std::cout<<"unpack(my_config)"<<my_config.hope_speed<<std::endl;
+  // }
+  // /*while 1 which should be moved into independent thread*/
+  // while(1){
+  //     if(myudp.recv_from_udp(recv_str))
+  //     {
+  //       std::cout<<"recv:"<<recv_str<<std::endl;
+  //       if(!my_proto.unpack(recv_str,my_config))
+  //       {
+  //         std::cout<<"protol.unpack Failure..."<<std::endl;
+  //       }
+  //       else
+  //       {
+  //         //get my_config here
+  //         {//for example as below:
+  //            std::cout<<"hope_speed from HMI:"<< my_config.hope_speed<<std::endl;
+  //         }
+  //         //assign my_disp here
+  //         {//for example as below:
+  //           my_disp.drive_mode=my_config.drive_mode;
+  //           my_disp.system_state=0;
+  //           my_disp.vehicle_stangle=60;
+  //           my_disp.navi_id=1;
+  //           my_disp.vehicle_lon=125.1234567;
+  //           my_disp.vehicle_lat=44.1234567;
+  //           my_disp.vehicle_alt=230.1;
+  //           my_disp.vehicle_speed=36.12;
+  //           my_disp.traffic_light=2;
+  //           my_disp.lane_id=1;
+  //           my_disp.lane_a=50.6;
+  //           my_disp.lane_b=12.3;
+  //           my_disp.lane_c=23.4;
+  //           my_disp.lane_class=1;
+  //           my_disp.lane_width=0.15;
+  //           my_disp.object_id=12;
+  //           my_disp.object_x=10.1;
+  //           my_disp.object_y=5.3;
+  //           my_disp.object_vx=10.1;
+  //           my_disp.object_vy=0.2;
+  //           my_disp.object_class=1;
+  //           my_disp.object_width=3;
+  //           my_disp.object_length=5;
+  //           my_disp.object_height=1.8;
+  //           my_disp.system_state=0;
+  //         }
+  //         //-----------------------------------
+  //         std::string send_str=my_proto.pack(my_disp);
+  //         myudp.send_to_udp(send_str);
+  //       }
+  //     }
+  //   }
 }
 
 }//namespace hmi_bridge
