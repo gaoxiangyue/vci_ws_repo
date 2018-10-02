@@ -56,7 +56,7 @@ struct HMI_CONFIG_ {
     double navi_lon;
     double navi_lat;
     double navi_alt;
-    double navi_speed;      
+    double navi_lspeed;      
 } ;
 
 class hmi_protocol{
@@ -65,14 +65,6 @@ class hmi_protocol{
         ~hmi_protocol();
         bool unpack(std::string str_recv, HMI_CONFIG_ &hmi_config);
         std::string pack(HMI_DISP_ hmi_disp); 
-    private:
-        struct NAVI{
-            uint32_t navi_id;
-            double navi_lon;
-            double navi_lat;
-            double navi_alt;
-            double navi_speed;
-        } navi_array[10];
 };
 
 }

@@ -4,7 +4,8 @@
   <group ns="hmi/hmi_bridge">
 
     <node pkg="hmi_bridge" type="hmi_bridge_node" name="hmi_bridge_node" output="screen">
-      <param name="fps_pub_" value="10"/>
+      <param name="fps_pub" value="10"/>
+      <param name="fps_udp" value="100"/>
       <param name="topic_name_rx" value="/hmi_display"/>
       <param name="topic_name_tx" value="/hmi_config"/>
     </node>

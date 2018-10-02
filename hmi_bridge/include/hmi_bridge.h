@@ -34,19 +34,22 @@ private:
   void processTopic(const vci_msgs::HmiConfig::ConstPtr& msg);
   void publishTopic(const ros::WallTimerEvent& event);
   void listenUdp(const ros::WallTimerEvent& event);
+  void cacheNavi();
 
   /* Subscribers & publishers */
      ros::Subscriber sub_topic_;
      ros::Publisher pub_topic_;
   /* ROS parameters */
-     int fps_pub_;              // fps publishing topics
-     std::string topic_name_rx_; // radar -> driver ("can_rx")
-     std::string topic_name_tx_; // driver -> radar
+     int fps_pub_;               // fps publishing topics
+     std::string topic_name_rx_; // 
+     std::string topic_name_tx_; // 
+     std::string hmi_frame_id_;
   /* timers */
      ros::WallTimer timer_pub_;
      ros::WallTimer timer_udp_;
   /* UDP parameters */
      int fps_udp_;                // fps lishening udp msgs 
+     udp_space::udp myudp;
 
 };
 

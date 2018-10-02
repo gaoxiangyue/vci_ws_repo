@@ -27,6 +27,13 @@ bool hmi_protocol::unpack(std::string str_recv, HMI_CONFIG_ &hmi_config){
   }
   hmi_config.drive_mode=data[0];
   hmi_config.hope_speed=data[1];
+  hmi_config.time_headway=data[2];
+  hmi_config.navi_id=data[3];
+  hmi_config.navi_lon=data[4];
+  hmi_config.navi_lat=data[5];
+  hmi_config.navi_alt=data[6];
+  hmi_config.navi_lspeed=data[7];
+
   return true;
 }
 
