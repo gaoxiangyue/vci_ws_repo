@@ -30,6 +30,10 @@ udp_bridge::udp_bridge(ros::NodeHandle &nh, ros::NodeHandle &nh_private)
   //scheduling udp listen
   timer_udp_ = nh.createWallTimer(ros::WallDuration(1./fps_udp_), &udp_bridge::listenUdp, this);
 
+  /* navi buffer init */
+  hmi_config.navi_id=-1;
+  hmi_config.navi_status=-1;
+     
   //last_timestamp_=ros::Time::now();
 }
 
@@ -55,11 +59,11 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
   std::string recv_str;
   protocol_parse::HMI_CONFIG_ my_config;
   protocol_parse::HMI_DISP_ my_disp;
-  protocol_parse::hmi_protocol my_proto;
 
   if(myudp.recv_from_udp(recv_str))
     {
-      std::cout<<"recv:"<<recv_str<<std::endl;
+      // std::cout<<"udp_recv:"<<recv_str<<std::endl;
+      protocol_parse::hmi_protocol my_proto;
       if(!my_proto.unpack(recv_str,my_config))
       {
         std::cout<<"protol.unpack failure..."<<std::endl;
@@ -68,15 +72,39 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
       {
         //get my_config here
         {//for example as below:
-          vci_msgs::HmiConfig hmi_config;
           hmi_config.header.stamp =ros::Time::now();
           hmi_config.header.frame_id =hmi_frame_id_;
           hmi_config.drive_mode =my_config.drive_mode;
           hmi_config.hope_speed =my_config.hope_speed;
           hmi_config.time_headway =my_config.time_headway;
-          
-          std::cout<<"navi_id="<< my_config.navi_id<<" navi_lspeed="<< my_config.navi_lspeed;
-          
+          if(hmi_config.navi_id+1==my_config.navi_id)
+          {
+            geometry_msgs::Point navi_point;
+            navi_point.x=my_config.navi_lon;
+            navi_point.y=my_config.navi_lat;
+            navi_point.z=my_config.navi_alt;
+            hmi_config.navi_position_array.push_back(navi_point);
+            hmi_config.navi_lspeed_array.push_back(my_config.navi_lspeed);
+            while(hmi_config.navi_position_array.size()>NAVI_SIZE)
+            {
+               hmi_config.navi_position_array.erase(hmi_config.navi_position_array.begin());
+               hmi_config.navi_lspeed_array.erase(hmi_config.navi_lspeed_array.begin());
+            }
+          }
+          hmi_config.navi_id = my_config.navi_id;
+
+          // //hmi_config.navi_status=calcu_section();
+          // hmi_config.navi_status=1;
+          // if(hmi_config.navi_status>1 || (hmi_config.navi_position_array.size()<NAVI_SIZE && my_config.navi_id>-2))
+          // {
+          //   hmi_config.navi_id=my_config.navi_id;
+          // } 
+          // //renavi
+          // if(my_config.navi_id==-1) 
+          // {
+          //   hmi_config.navi_id = my_config.navi_id;
+          // }  
+                    
           pub_topic_.publish(hmi_config);
         }
         //assign my_disp here
@@ -84,7 +112,7 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
           my_disp.drive_mode=my_config.drive_mode;
           my_disp.system_state=0;
           my_disp.vehicle_stangle=60;
-          my_disp.navi_id=1;
+          my_disp.navi_id=hmi_config.navi_id+1;
           my_disp.vehicle_lon=125.3640824;
           my_disp.vehicle_lat=43.7503726;
           my_disp.vehicle_alt=230.1;

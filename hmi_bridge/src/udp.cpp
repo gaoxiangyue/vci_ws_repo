@@ -25,7 +25,7 @@ udp::udp()
         }
 
     addr_len = sizeof(struct sockaddr);
-    cout << "\nICPServer Waiting for HMIClient on port: "<<ntohs(server_addr.sin_port);
+    cout << "\nICPServer Waiting for HMIClient on port: "<<ntohs(server_addr.sin_port)<< endl;
     fflush(stdout);
 }
 

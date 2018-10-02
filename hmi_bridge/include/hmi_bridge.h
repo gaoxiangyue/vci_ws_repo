@@ -20,6 +20,8 @@
 #include "udp.hpp"
 #include "protocol_parse.hpp"
 
+#define NAVI_SIZE 10
+
 namespace hmi_bridge {
 //using namespace timesync;
 using namespace std;
@@ -50,6 +52,9 @@ private:
   /* UDP parameters */
      int fps_udp_;                // fps lishening udp msgs 
      udp_space::udp myudp;
+
+     vci_msgs::HmiConfig hmi_config;
+     protocol_parse::HMI_CONFIG_ my_config;
 
 };
 

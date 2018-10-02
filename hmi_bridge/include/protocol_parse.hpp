@@ -36,7 +36,7 @@ struct HMI_DISP_ {
     //tfc
     uint8_t traffic_light;
     /* Vehi state */
-    uint32_t navi_id;
+    int32_t navi_id;
     double vehicle_lon;
     double vehicle_lat;
     double vehicle_alt;
@@ -52,7 +52,7 @@ struct HMI_CONFIG_ {
     uint8_t drive_mode;
     double hope_speed;
     double time_headway; 
-    uint32_t navi_id;
+    int32_t navi_id;
     double navi_lon;
     double navi_lat;
     double navi_alt;
@@ -65,6 +65,7 @@ class hmi_protocol{
         ~hmi_protocol();
         bool unpack(std::string str_recv, HMI_CONFIG_ &hmi_config);
         std::string pack(HMI_DISP_ hmi_disp); 
+        
 };
 
 }
