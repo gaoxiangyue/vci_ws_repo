@@ -54,7 +54,6 @@ private:
      udp_space::udp myudp;
 
      vci_msgs::HmiConfig hmi_config;
-     protocol_parse::HMI_CONFIG_ my_config;
 
 };
 

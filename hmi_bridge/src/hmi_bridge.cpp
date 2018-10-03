@@ -90,20 +90,18 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
                hmi_config.navi_position_array.erase(hmi_config.navi_position_array.begin());
                hmi_config.navi_lspeed_array.erase(hmi_config.navi_lspeed_array.begin());
             }
+            hmi_config.navi_id=my_config.navi_id;
           }
-          hmi_config.navi_id = my_config.navi_id;
-
-          // //hmi_config.navi_status=calcu_section();
-          // hmi_config.navi_status=1;
-          // if(hmi_config.navi_status>1 || (hmi_config.navi_position_array.size()<NAVI_SIZE && my_config.navi_id>-2))
-          // {
-          //   hmi_config.navi_id=my_config.navi_id;
-          // } 
-          // //renavi
-          // if(my_config.navi_id==-1) 
-          // {
-          //   hmi_config.navi_id = my_config.navi_id;
-          // }  
+          //renavi or finished
+          if(my_config.navi_id<0)
+          {
+            if(my_config.navi_id==-1)
+            {
+              hmi_config.navi_position_array.clear();
+              hmi_config.navi_lspeed_array.clear();
+            }
+            hmi_config.navi_id=my_config.navi_id;
+          }
                     
           pub_topic_.publish(hmi_config);
         }
@@ -112,7 +110,18 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
           my_disp.drive_mode=my_config.drive_mode;
           my_disp.system_state=0;
           my_disp.vehicle_stangle=60;
-          my_disp.navi_id=hmi_config.navi_id+1;
+
+          //hmi_config.navi_status=calcu_section();
+          hmi_config.navi_status=1;
+          if(hmi_config.navi_status>1 ||hmi_config.navi_position_array.size()<NAVI_SIZE)
+          {
+            my_disp.navi_id=hmi_config.navi_id+1;
+          } 
+          else
+          {
+            my_disp.navi_id=hmi_config.navi_id;
+          } 
+
           my_disp.vehicle_lon=125.3640824;
           my_disp.vehicle_lat=43.7503726;
           my_disp.vehicle_alt=230.1;
