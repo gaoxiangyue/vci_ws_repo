@@ -36,7 +36,8 @@ private:
   void processTopic(const vci_msgs::HmiConfig::ConstPtr& msg);
   void publishTopic(const ros::WallTimerEvent& event);
   void listenUdp(const ros::WallTimerEvent& event);
-  void cacheNavi();
+  int isColline( double x,double y, std::vector<geometry_msgs::Point> points, double H_PRECISION);
+
 
   /* Subscribers & publishers */
      ros::Subscriber sub_topic_;

@@ -112,6 +112,7 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
           my_disp.vehicle_stangle=60;
 
           //hmi_config.navi_status=calcu_section();
+          hmi_config.navi_status=isColline(0,0,hmi_config.navi_position_array,1.0);
           hmi_config.navi_status=1;
           if(hmi_config.navi_status>1 ||hmi_config.navi_position_array.size()<NAVI_SIZE)
           {
@@ -119,6 +120,8 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
           } 
           else
           {
+            if(hmi_config.navi_status==-1)
+              ROS_ERROR("navi_status(isColline): vehicle is off trail");
             my_disp.navi_id=hmi_config.navi_id;
           } 
 
@@ -150,6 +153,53 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
         //-----------------------------------
       }
     }
+}
+
+int udp_bridge::isColline( double x,double y, std::vector<geometry_msgs::Point> points, double H_PRECISION)
+{
+  //0~10;-1 off
+  int order =-1;
+  //a:0-b-1-c-2;-1 offtrail
+  for (int i=0;i< points.size()-1;i++)
+  {
+    geometry_msgs::Point point=points.at(i);
+    geometry_msgs::Point point_=points.at(i+1);
+    double x1= x,y1= y;
+    double x2= point.x, y2= point.y;
+    double x3= point_.x, y3= point_.y;
+    double a=sqrt(pow(x2-x3,2)-pow(y2-y3,2));
+    double b=sqrt(pow(x1-x3,2)-pow(y1-y3,2));
+    double c=sqrt(pow(x2-x1,2)-pow(y2-y1,2));
+    /**/
+    if(b==0){order =i+2; break;}
+    if(c==0){order =i+1; break;}
+    if(a==0) break;
+    double cosA=(pow(b,2)+pow(c,2)-pow(a,2))/(2*b*c);
+    double sinA=sqrt(1-pow(cosA,2));
+    double error=b*c*sinA/a;
+    if(error< H_PRECISION )
+    {
+      if(a>b && a>c)
+      {
+        order=i+1;
+        break;
+      }
+      else if(b>a && b>c)
+      {
+        order=i;
+        break;
+      }
+      else
+      {
+        continue;
+      }
+    }
+    else
+    {
+      continue;
+    }
+  }
+  return order;
 }
 
 }//namespace hmi_bridge
