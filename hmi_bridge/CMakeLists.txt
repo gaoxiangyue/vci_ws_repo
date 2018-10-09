@@ -16,8 +16,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   can_msgs
   sensor_msgs
-  momenta_msgs
-  dbw_mkz_msgs
   vci_msgs
 )
 
