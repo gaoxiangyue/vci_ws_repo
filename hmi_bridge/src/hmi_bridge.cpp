@@ -160,7 +160,7 @@ int udp_bridge::isColline( double x,double y, std::vector<geometry_msgs::Point> 
   //0~10;-1 off
   int order =-1;
   //a:0-b-1-c-2;-1 offtrail
-  for (int i=0;i< points.size()-1;i++)
+  for (int i=0;i+1< points.size();i++)
   {
     geometry_msgs::Point point=points.at(i);
     geometry_msgs::Point point_=points.at(i+1);
