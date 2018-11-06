@@ -76,7 +76,7 @@ void udp_bridge::listenUdp(const ros::WallTimerEvent& event)
           hmi_config.header.frame_id =hmi_frame_id_;
           hmi_config.drive_mode =my_config.drive_mode;
           hmi_config.hope_speed =my_config.hope_speed;
-          hmi_config.time_headway =my_config.time_headway;
+          hmi_config.time_headway =my_config.time_headway/10;
           if(hmi_config.navi_id+1==my_config.navi_id)
           {
             geometry_msgs::Point navi_point;
