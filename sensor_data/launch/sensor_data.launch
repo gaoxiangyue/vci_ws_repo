@@ -1,0 +1,18 @@
+<launch>
+
+  <!-- <group ns="tool/calibration">
+    <node pkg="sensor_data" type="calibration_node" name="calibration_node" output="screen"> 
+      <param name="configuration_file" value="$(env HOME)/catkin_ws/"/>
+      <param name="pkg_path" value="$(find sensor_data)"/>
+    </node>
+  </group> -->
+
+  <group ns="driver/sensor">
+    <node pkg="sensor_data" type="offline_node" name="offline_node" > 
+      <param name="configuration_file" value="$(env HOME)/catkin_ws/"/>
+      <param name="pkg_path" value="$(find sensor_data)"/>
+      <param name="data_path" value="/home/gaoxiangyue/catkin_ws/KITTI/2011_09_26_drive_0048_extract"/>
+    </node>
+  </group>
+
+</launch>

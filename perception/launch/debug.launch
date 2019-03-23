@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- <group ns="tool/calibration">
+    <node pkg="sensor_data" type="calibration_node" name="calibration_node" output="screen"> 
+      <param name="configuration_file" value="$(env HOME)/catkin_ws/"/>
+      <param name="pkg_path" value="$(find sensor_data)"/>
+    </node>
+  </group> -->
+
+  <group ns="perception/vslam">
+    <node pkg="perception" type="perception_node" name="perception_node" output="screen"> 
+      <!-- <param name="image_rx" value="/sensor/image_fvc"/> -->
+    </node>
+  </group>
+
+</launch>
