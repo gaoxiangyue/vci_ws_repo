@@ -42,10 +42,21 @@ src/perception_main.cpp
 src/perception_node.cpp
 )
 
+add_executable(perspective_test
+src/perspective.cpp
+)
+
 target_link_libraries(perception_node
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   jsoncpp
 )
 
+target_link_libraries(perspective_test
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+  jsoncpp
+)
+
 add_dependencies(perception_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(perspective_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
